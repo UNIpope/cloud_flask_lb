@@ -1,0 +1,13 @@
+from flask import Flask, jsonify
+from psutil import virtual_memory
+import socket
+import multiprocessing
+app = Flask(__name__)
+
+@app.route('/status')
+def main():
+	ip = socket.gethostbyname(socket.gethostname())
+	host = socket.gethostname()
+	cpu_count = multiprocessing.cpu_count()
+	mem = virtual_memory()
+	return jsonify({"Hostname": host, "Local IP" : ip, "CPU's": cpu_count, "RAM":mem.total/1000000000})
